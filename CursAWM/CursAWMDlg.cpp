@@ -9,6 +9,7 @@
 #include "afxdialogex.h"
 #include <stdlib.h>
 #include <SFML/Graphics.hpp>
+#include "logic.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -238,6 +239,8 @@ void CAboutDlg::OnBnClickedStart() {
 }
 void CCursAWMDlg::OnBnClickedStart()
 {
+	logic it(adr_64, operation_var, word_lenght_var, connect_time_var, num);
+	it.create_mas();
 	// TODO: добавьте свой код обработчика уведомлений
 	sf::RenderWindow window(sf::VideoMode(1080, 720), "SFML works!");
 	sf::CircleShape shape(100.f);
