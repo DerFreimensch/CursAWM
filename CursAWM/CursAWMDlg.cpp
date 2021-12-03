@@ -8,7 +8,7 @@
 #include "CursAWMDlg.h"
 #include "afxdialogex.h"
 #include <stdlib.h>
-#include <SFML/Graphics.hpp>
+
 #include "logic.h"
 
 #ifdef _DEBUG
@@ -241,21 +241,7 @@ void CCursAWMDlg::OnBnClickedStart()
 {
 	logic it(adr_64, operation_var, word_lenght_var, connect_time_var, num);
 	it.create_mas();
+	it.show();
 	// TODO: добавьте свой код обработчика уведомлений
-	sf::RenderWindow window(sf::VideoMode(1080, 720), "SFML works!");
-	sf::CircleShape shape(100.f);
-
-
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		window.clear(sf::Color(255,255,255,0));
-		window.display();
-	}
+	
 }
