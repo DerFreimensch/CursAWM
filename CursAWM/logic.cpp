@@ -2,6 +2,8 @@
 #include "logic.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <string>
+#include <cmath>
 #define HIGH 75
 #define MULT 1
 using namespace sf;
@@ -14,12 +16,14 @@ logic::logic() {
 	this->mas = new int[0];
 	this -> clk = 30;
 	this->whole_lenght = 0;
+	this->size_it = 35;
 }
 logic::logic(BOOL a, int o, int l, int c, int n) : 
 	adr(a), op(o), l_trans(l), c_time(c), n_trans(n) {
 	this->mas = new int[n];
 	this->clk = 30;
 	this->whole_lenght = 0;
+	this->size_it = 35;
 }
 
 
@@ -161,19 +165,120 @@ void logic::show() {
 	}
 	int g = (mas[n_trans - 1] / 30)*2;
 	RectangleShape frame[3];
-	RectangleShape line_1(Vector2f(pace * 2, 30.f));
-	RectangleShape line_2(Vector2f(pace * (num - 4-g), 30.f));
-	RectangleShape line_3(Vector2f(pace * (2 +g), 30.f));
-	line_1.setFillColor(Color(255, 0, 0));
-	line_2.setFillColor(Color(0, 255, 0));
-	line_3.setFillColor(Color(255, 0, 0));
+	RectangleShape fline_1(Vector2f(pace * 2, 30.f));
+	RectangleShape fline_2(Vector2f(pace * (num - 4-g), 30.f));
+	RectangleShape fline_3(Vector2f(pace * (2 +g), 30.f));
+	fline_1.setFillColor(Color(255, 0, 0));
+	fline_2.setFillColor(Color(0, 255, 0));
+	fline_3.setFillColor(Color(255, 0, 0));
+	fline_1.move(250,225);
+	fline_2.move(250 + pace * 2, 225);
+	fline_3.move(250 + pace * (num - 2-g), 225);
+	frame[0] = fline_1;
+	frame[1] = fline_2;
+	frame[2] = fline_3;
+	RectangleShape irdy[3];
+	RectangleShape iline_1(Vector2f(pace * 2, 30.f));
+	RectangleShape iline_2(Vector2f(pace * (num - 4), 30.f));
+	RectangleShape iline_3(Vector2f(pace * 2, 30.f));
+	iline_1.setFillColor(Color(255, 0, 0));
+	iline_2.setFillColor(Color(0, 255, 0));
+	iline_3.setFillColor(Color(255, 0, 0));
+	iline_1.move(250, 600);
+	iline_2.move(250 + pace * 2, 600);
+	iline_3.move(250 + pace * (num - 2), 600);
+	irdy[0] = iline_1;
+	irdy[1] = iline_2;
+	irdy[2] = iline_3;
+	RectangleShape trdy[3];
+	RectangleShape tline_1(Vector2f(pace * 2, 30.f));
+	RectangleShape tline_2(Vector2f(pace * (num - 4), 30.f));
+	RectangleShape tline_3(Vector2f(pace * 2, 30.f));
+	tline_1.setFillColor(Color(255, 0, 0));
+	tline_2.setFillColor(Color(0, 255, 0));
+	tline_3.setFillColor(Color(255, 0, 0));
+	tline_1.move(250, 725);
+	tline_2.move(250 + pace * 2, 725);
+	tline_3.move(250 + pace * (num - 2), 725);
+	trdy[0] = tline_1;
+	trdy[1] = tline_2;
+	trdy[2] = tline_3;
+	RectangleShape devsel[3];
+	RectangleShape dline_1(Vector2f(pace * 2, 30.f));
+	RectangleShape dline_2(Vector2f(pace * (num - 4), 30.f));
+	RectangleShape dline_3(Vector2f(pace * 2, 30.f));
+	dline_1.setFillColor(Color(255, 0, 0));
+	dline_2.setFillColor(Color(0, 255, 0));
+	dline_3.setFillColor(Color(255, 0, 0));
+	dline_1.move(250, 850);
+	dline_2.move(250 + pace * 2, 850);
+	dline_3.move(250 + pace * (num - 2), 850);
+	devsel[0] = dline_1;
+	devsel[1] = dline_2;
+	devsel[2] = dline_3;
+	RectangleShape adress(Vector2f(pace * 2, 30.f));
+	RectangleShape adress2(Vector2f(pace * 2, 30.f));
+	std::string l;
+	if (op == 0) {
+		l = "Using codes: adr:0111";
+	}
+	else if (op == 1) {
+		l = "Using codes: adr:0011";
+	}
+	else if (op == 2) {
+		l = "Using codes: adr:0110";
+	}
+	else {
+		l = "Using codes: adr:0010";
+	}
+	if (adr) {
+		l = l + " adrEx: 1101";
+	}
+	if (l_trans == 0) {
+		l = l+ " data:1100";
+	}
+	else if (l_trans == 1) {
+		l = l + " data:0000";
+	}
+	else if (l_trans == 2) {
+		l = l + " data:0000";
+	}
+	else {
+		l = l + " data:1110";
+	}
 	
-	line_1.move(250,250);
-	line_2.move(250 + pace * 2, 250);
-	line_3.move(250 + pace * (num - 2-g), 250);
-	frame[0] = line_1;
-	frame[1] = line_2;
-	frame[2] = line_3;
+	size_it = size_it - int(std::log2(num));
+	Text adr1(l,font, size_it);
+	adr1.move(250, 950);
+	
+	adress.setFillColor(Color(0, 0, 255));
+	adress.move(250 + pace * 2, 350);
+	adress2.setFillColor(Color(0, 0, 255));
+	adress2.move(250 + pace * 4, 350);
+	adress.setOutlineThickness(2.f);
+	adress2.setOutlineThickness(2.f);
+	RectangleShape* mas1 = new RectangleShape[n_trans];
+	int acm = 0;
+	for (int i = 0; i < n_trans; i++) {
+		if (op == 0 || op == 1) {
+			
+			RectangleShape tr(Vector2f(pace * 2 * mas[i] / 30, 30.f));
+			tr.move(250 + pace*4 +acm, 350);
+			tr.setOutlineThickness(2.f);
+			tr.setFillColor(Color(0, 0, 255));
+			mas1[i] = tr;
+			acm += pace * 2 * mas[i] / 30;
+		}
+		else {
+			RectangleShape tr(Vector2f(pace * 2 * mas[i] / 30, 30.f));
+			tr.move(250 + pace*6 + acm, 350);
+			tr.setOutlineThickness(2.f);
+			tr.setFillColor(Color(0, 0, 255));
+			mas1[i] = tr;
+			acm += pace * 2 * mas[i] / 30;
+		}
+	}
+
 	while (window.isOpen())
 	{
 		Vector2i localPosition = Mouse::getPosition(window);
@@ -196,9 +301,18 @@ void logic::show() {
 		}
 		for (int i = 0; i < 3; i++) {
 			window.draw(frame[i]);
+			window.draw(irdy[i]);
+			window.draw(trdy[i]);
+			window.draw(devsel[i]);
 		}
-		
+		window.draw(adress);
+		if (adr) window.draw(adress2);
+		window.draw(adr1);
+		for (int i = 0; i < n_trans; i++) {
+			window.draw(mas1[i]);
+		}
 		window.display();
+		
 	}
 }
 

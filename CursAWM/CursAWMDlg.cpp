@@ -91,6 +91,7 @@ BEGIN_MESSAGE_MAP(CCursAWMDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO3, &CCursAWMDlg::OnConnectTimeChange)
 	ON_EN_CHANGE(IDC_EDIT1, &CCursAWMDlg::OnEnChangeEdit1)
 	ON_BN_CLICKED(IDC_BUTTON1, &CCursAWMDlg::OnBnClickedStart)
+	ON_BN_CLICKED(IDC_CHECK1, &CCursAWMDlg::OnBnClickedCheck1)
 END_MESSAGE_MAP()
 
 
@@ -145,6 +146,7 @@ BOOL CCursAWMDlg::OnInitDialog()
 	connect_time.AddString(L"4-1-4-1, 1~20 нс");
 	connect_time.AddString(L"5-2-2-2, 1~20 нс");
 	connect_time.AddString(L"3-2-2-2, 1~15 нс");
+	adr_64 = 0;
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
@@ -244,4 +246,10 @@ void CCursAWMDlg::OnBnClickedStart()
 	it.show();
 	// TODO: добавьте свой код обработчика уведомлений
 	
+}
+
+
+void CCursAWMDlg::OnBnClickedCheck1()
+{
+	adr_64 = !adr_64;
 }

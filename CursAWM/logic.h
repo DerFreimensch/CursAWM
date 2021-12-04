@@ -12,6 +12,7 @@ private:
 	int n_trans;
 	int *mas;
 	int whole_lenght;
+	int size_it;
 public:
 	logic();
 	logic(BOOL a, int o, int l, int c, int n);

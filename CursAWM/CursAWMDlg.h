@@ -53,4 +53,5 @@ public:
 	afx_msg void OnBnClickedStart();
 	// кол-во транзакций
 	CEdit number_trans;
+	afx_msg void OnBnClickedCheck1();
 };
