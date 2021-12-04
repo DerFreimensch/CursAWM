@@ -26,12 +26,12 @@ logic::logic(BOOL a, int o, int l, int c, int n) :
 void logic::create_mas() {
 	if (c_time == 0) {
 		for (int i = 0; i < this->n_trans; i++) {
-			mas[i] = 100;
+			mas[i] = 120;
 		}
 	}
 	else if (c_time == 1) {
 		for (int i = 0; i < this->n_trans; i++) {
-			mas[i] = 200;
+			mas[i] = 210;
 		}
 	}
 	else if (c_time == 2) {
@@ -42,41 +42,41 @@ void logic::create_mas() {
 	else if (c_time == 3) {
 		for (int i = 0; i < this->n_trans; i++) {
 			if (i % 4 == 0) mas[i] = 60;
-			else mas[i] = 20;
+			else mas[i] = 30;
 			
 		}
 	}
 	else if (c_time == 4) {
 		for (int i = 0; i < this->n_trans; i++) {
-			if (i % 4 == 0) mas[i] = 75;
-			else mas[i] = 25;
+			if (i % 4 == 0) mas[i] = 90;
+			else mas[i] = 30;
 
 		}
 	}
 	else if (c_time == 5) {
 		for (int i = 0; i < this->n_trans; i++) {
-			if (i % 4 == 0) mas[i] = 45;
+			if (i % 4 == 0) mas[i] = 60;
 			else mas[i] = 30;
 
 		}
 	}
 	else if (c_time == 6) {
 		for (int i = 0; i < this->n_trans; i++) {
-			if (i % 2 == 0) mas[i] = 80;
-			else mas[i] = 20;
+			if (i % 2 == 0) mas[i] = 90;
+			else mas[i] = 30;
 
 		}
 	}
 	else if (c_time == 7) {
 		for (int i = 0; i < this->n_trans; i++) {
-			if (i % 2 == 0) mas[i] = 100;
-			else mas[i] = 40;
+			if (i % 2 == 0) mas[i] = 120;
+			else mas[i] = 60;
 
 		}
 	}
 	else if (c_time == 8) {
 		for (int i = 0; i < this->n_trans; i++) {
-			mas[i] = 70;
+			mas[i] = 90;
 		}
 	}
 	for (int i = 0; i < this->n_trans; i++) {
@@ -91,7 +91,7 @@ int logic::check_lengh(int* pace, int op) {
 	if (!adr) num_of_lines+=2;// для адреса
 	else num_of_lines += 4;
 	if (op == 2 || op == 3) num_of_lines += 2;
-	num_of_lines += 2;
+	num_of_lines += 4;
 	*pace = 1610 / num_of_lines;
 	return num_of_lines;
 }
@@ -142,11 +142,12 @@ void logic::show() {
 		RectangleShape line_it(Vector2f(pace, 30.f));
 		RectangleShape line_it1(Vector2f(800, 1.f));
 		line_it1.setFillColor(Color(255, 255, 255));
-		if(i%2 == 0) line_it.setFillColor(Color(0, 255, 0));
-		else line_it.setFillColor(Color(255, 0, 0));
+		if(i%2 == 0) line_it.setFillColor(Color(255, 0, 0));
+		else line_it.setFillColor(Color(0, 255, 0));
 		//CLK[i].rotate(90.f);
 		line_it1.rotate(90.f);
-		line_it1.move(250 + pace * (i + 1), 110);
+		if(i == 0) line_it1.move(250 + pace *(i + 1), 110);
+		else line_it1.move(250 + pace *(2*i+1), 110);
 		line_it.move(250+pace*(i), 110);
 		vert[i] = line_it1;
 		CLK[i] = line_it;
@@ -158,6 +159,21 @@ void logic::show() {
 		line_it.move(250, 125*(i+1));
 		line[i] = line_it;
 	}
+	int g = (mas[n_trans - 1] / 30)*2;
+	RectangleShape frame[3];
+	RectangleShape line_1(Vector2f(pace * 2, 30.f));
+	RectangleShape line_2(Vector2f(pace * (num - 4-g), 30.f));
+	RectangleShape line_3(Vector2f(pace * (2 +g), 30.f));
+	line_1.setFillColor(Color(255, 0, 0));
+	line_2.setFillColor(Color(0, 255, 0));
+	line_3.setFillColor(Color(255, 0, 0));
+	
+	line_1.move(250,250);
+	line_2.move(250 + pace * 2, 250);
+	line_3.move(250 + pace * (num - 2-g), 250);
+	frame[0] = line_1;
+	frame[1] = line_2;
+	frame[2] = line_3;
 	while (window.isOpen())
 	{
 		Vector2i localPosition = Mouse::getPosition(window);
@@ -177,6 +193,9 @@ void logic::show() {
 		for (int i = 0; i < num; i++) {
 			window.draw(CLK[i]);
 			window.draw(vert[i]);
+		}
+		for (int i = 0; i < 3; i++) {
+			window.draw(frame[i]);
 		}
 		
 		window.display();
