@@ -218,33 +218,35 @@ void logic::show() {
 	devsel[2] = dline_3;
 	RectangleShape adress(Vector2f(pace * 2, 30.f));
 	RectangleShape adress2(Vector2f(pace * 2, 30.f));
+	RectangleShape cadress(Vector2f(pace * 2, 30.f));
+	RectangleShape cadress2(Vector2f(pace * 2, 30.f));
 	std::string l;
 	if (op == 0) {
-		l = "Using codes: adr:0111";
+		l = "Using codes: adr(violet):0111";
 	}
 	else if (op == 1) {
-		l = "Using codes: adr:0011";
+		l = "Using codes: adr(violet):0011";
 	}
 	else if (op == 2) {
-		l = "Using codes: adr:0110";
+		l = "Using codes: adr(violet):0110";
 	}
 	else {
-		l = "Using codes: adr:0010";
+		l = "Using codes: adr(violet):0010";
 	}
 	if (adr) {
-		l = l + " adrEx: 1101";
+		l = l + " adrEx(orange): 1101";
 	}
 	if (l_trans == 0) {
-		l = l+ " data:1100";
+		l = l+ " data(turquoise):1100";
 	}
 	else if (l_trans == 1) {
-		l = l + " data:0000";
+		l = l + " data(turquoise):0000";
 	}
 	else if (l_trans == 2) {
-		l = l + " data:0000";
+		l = l + " data(turquoise):0000";
 	}
 	else {
-		l = l + " data:1110";
+		l = l + " data(turquoise):1110";
 	}
 	
 	size_it = size_it - int(std::log2(num));
@@ -257,13 +259,20 @@ void logic::show() {
 	adress2.move(250 + pace * 4, 350);
 	adress.setOutlineThickness(2.f);
 	adress2.setOutlineThickness(2.f);
+
+	cadress.setFillColor(Color(139, 0, 255));
+	cadress.move(250 + pace * 2, 475);
+	cadress2.setFillColor(Color(255, 165, 0));
+	cadress2.move(250 + pace * 4, 475);
+
 	RectangleShape* mas1 = new RectangleShape[n_trans];
+	RectangleShape* c_be = new RectangleShape[n_trans];
 	int acm = 0;
 	for (int i = 0; i < n_trans; i++) {
 		if (op == 0 || op == 1) {
-			
 			RectangleShape tr(Vector2f(pace * 2 * mas[i] / 30, 30.f));
-			tr.move(250 + pace*4 +acm, 350);
+			if (adr) tr.move(250 + pace * 6 + acm, 350);
+			else tr.move(250 + pace*4 +acm, 350);
 			tr.setOutlineThickness(2.f);
 			tr.setFillColor(Color(0, 0, 255));
 			mas1[i] = tr;
@@ -271,10 +280,30 @@ void logic::show() {
 		}
 		else {
 			RectangleShape tr(Vector2f(pace * 2 * mas[i] / 30, 30.f));
-			tr.move(250 + pace*6 + acm, 350);
+			if (adr) tr.move(250 + pace * 8 + acm, 350);
+			else tr.move(250 + pace*6 + acm, 350);
 			tr.setOutlineThickness(2.f);
 			tr.setFillColor(Color(0, 0, 255));
 			mas1[i] = tr;
+			acm += pace * 2 * mas[i] / 30;
+		}
+	}
+	acm = 0;
+	for (int i = 0; i < n_trans; i++) {
+		if (op == 0 || op == 1) {
+			RectangleShape tr(Vector2f(pace * 2 * mas[i] / 30, 30.f));
+			if (adr) tr.move(250 + pace * 6 + acm, 475);
+			else tr.move(250 + pace * 4 + acm, 475);
+			tr.setFillColor(Color(48, 213, 200));
+			c_be[i] = tr;
+			acm += pace * 2 * mas[i] / 30;
+		}
+		else {
+			RectangleShape tr(Vector2f(pace * 2 * mas[i] / 30, 30.f));
+			if (adr) tr.move(250 + pace * 8 + acm, 475);
+			else tr.move(250 + pace * 6 + acm, 475);
+			tr.setFillColor(Color(48, 213, 200));
+			c_be[i] = tr;
 			acm += pace * 2 * mas[i] / 30;
 		}
 	}
@@ -306,10 +335,16 @@ void logic::show() {
 			window.draw(devsel[i]);
 		}
 		window.draw(adress);
-		if (adr) window.draw(adress2);
+		window.draw(cadress);
+		if (adr) { 
+			window.draw(adress2);
+			window.draw(cadress2);
+		}
+
 		window.draw(adr1);
 		for (int i = 0; i < n_trans; i++) {
 			window.draw(mas1[i]);
+			window.draw(c_be[i]);
 		}
 		window.display();
 		
